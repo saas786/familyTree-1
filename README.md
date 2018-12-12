@@ -15,7 +15,11 @@ Please do not push to master. Please use branching and then push that branch to 
 - Create Tree Component
 - Create People components in tree
 - Set up dashboard
-- Break down requirements into more tasks
+- Set up Redis
+- Set up Worker structure
+- Figure out what we can do with keycloak
+- Figure out what to do with Accelerated Mobile pages
+
 
 ## Completed
 - Set up skeleton of code
