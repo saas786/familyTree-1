@@ -1,0 +1,10 @@
+{
+    "id": "$uuid",
+    "First Name": "John",
+    "Middle Name": "Andrew",
+    "Last Name": "Smith",
+    "Age": 40,
+    "Gender": "Male",
+    "Parents": ["$uuid", "$uuid"],
+    "Children": ["$uuid", "$uuid", "$uuid"]
+}
