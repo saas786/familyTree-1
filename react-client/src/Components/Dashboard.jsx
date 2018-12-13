@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import {
-    Navbar
-} from 'reactstrap';
+import Login from "./Login";
 
 class Dashboard extends Component {
     render() {
         return (
             <div>
-                <nav>
-                    <a className="navbar-brand" href="#">
-                        <p>Create</p>
-                        <p>View</p>
-                    </a>
-                </nav>
+                
                 <main role="main">
+                    <div className="jumbotron">
+                        <div className="container">
+                            <h1 className="display-3"> Welcome to Your Family Tree</h1>
+                            <Login />
+                            {/* <p> INSERT TREE COMPONENT HERE.</p> */}
+                        </div>
+                    </div>
                 </main>
             </div>
         );
