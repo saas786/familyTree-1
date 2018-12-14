@@ -37,6 +37,8 @@ Please do not push to master. Please use branching and then push that branch to 
 - Style dashboard
 - User specific front end components
 - Modals for nodes in tree
+- SSR 
+- Get tree from database
 
 
 ## Completed

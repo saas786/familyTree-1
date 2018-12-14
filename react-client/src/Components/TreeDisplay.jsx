@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Tree from "react-d3-tree";
+import PersonNode from './PersonNode';
 
 /* Uses https://github.com/bkrem/react-d3-tree for basic tree logic*/
 
@@ -7,28 +8,37 @@ const myTreeData = [
   {
     name: "Jay Pritchet",
     attributes: {
-      Spouse: "Gloria Pritchet",
+      spouse: "Gloria Pritchet",
     },
     children: [
       {
         name: "Claire Pritchet",
         attributes: {
-          Spouse: "Phil Dunfey"
+          spouse: "Phil Dunfey"
         },
         children: [
           {
             name: "Hayley Dunfey",
+            attributes: {
+              spouse: "",
+            },
           },{
             name: "Alex Dunfey",
+            attributes: {
+              spouse: "",
+            },
           },{
             name: "Son Dunfey",
+            attributes: {
+              spouse: "",
+            },
           }
         ]
       },
       {
         name: "Mitchell Pritchet",
         attributes: {
-          Spouse: "Dean Something"
+          spouse: "Dean Something"
         }
       }
     ]
@@ -40,7 +50,14 @@ class TreeDisplay extends Component {
     return (
       //{/* <Tree /> will fill width/height of its container; in this case `#treeWrapper` */}
       <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
-        <Tree data={myTreeData} pathFunc="elbow" orientation="verticle" />
+        <Tree data={myTreeData} pathFunc="elbow" orientation="verticle" allowForeignObjects 
+        nodeLabelComponent={{
+          render: <PersonNode className='myLabelComponentInSvg'/>,
+          foreignObjectWrapper: {
+            y: 24
+          }
+        }
+      }/>
       </div>
     );
   }
