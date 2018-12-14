@@ -25,6 +25,7 @@
     "node-uuid": "^1.4.8",
     "nodemon": "^1.18.4",
     "react": "^16.5.2",
+    "react-d3-tree": "^1.12.1",
     "react-dom": "^16.5.2",
     "react-tree-graph": "^3.2.0",
     "reactstrap": "^6.5.0",
