@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Login from "./Login";
 import TreeDisplay from "./TreeDisplay";
 
 class Dashboard extends Component {
