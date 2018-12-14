@@ -6,14 +6,20 @@ import Login from "./Login";
 import Signup from "./Signup";
 
 class App extends Component {
+  loginUser = event => {
+    
+  }
+
   render() {
     return (
       <Router>
         <div>
           <Nav />
           <Dashboard />
-          <Login />
-          <Signup />
+          <ul class="list-inline text-center">
+            <li class="list-inline-item"> <Login /> </li>
+            <li class="list-inline-item"> <Signup /> </li>
+          </ul>
         </div>
       </Router>
     );
