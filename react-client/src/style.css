@@ -5,3 +5,13 @@
 #center{
 	text-align: center;
 }
+.navbar{
+    width: 100%;
+}
+.nav-item, .user{
+    color: white;
+    padding: 0 5px 0 5px;
+}
+.user{
+    float:right;
+}
