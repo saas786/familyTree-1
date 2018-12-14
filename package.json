@@ -12,6 +12,7 @@
   "author": "Zoe Millard",
   "license": "ISC",
   "dependencies": {
+    "@githubprimer/octicons-react": "^8.2.0",
     "bluebird": "^3.5.3",
     "body-parser": "^1.17.0",
     "bootstrap": "^4.1.3",
