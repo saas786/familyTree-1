@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "start:dev": "concurrently \"nodemon server/app.js\" \"nodemon worker/worker.js\"",
-    "build": "webpack"
+    "build": "webpack",
+    "load": "node dbinit.js"
   },
   "author": "Zoe Millard",
   "license": "ISC",

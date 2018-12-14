@@ -2,9 +2,7 @@ const redisConnection = require("./redis-connection");
 const uuidv4 = require("uuid/v4");
 
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/"
-
-async function updatePerson(targetId, fields) {}
+const url = "mongodb://localhost:27017/";
 
 async function addPerson(personData) {
     MongoClient.connect(url, {
@@ -15,83 +13,101 @@ async function addPerson(personData) {
         var db = db.db("famDB");
         var col = db.collection("persons");
 
-        var id = uuidv4();
-        personData._id = id;
+        if (!personData._id){
+            var id = uuidv4();
+            personData._id = id;
+        }
+        
+        try {
 
-        col.insertOne(personData, function (err, result) {
-            if (err) throw err;
-        })
+            col.insertOne(personData);
 
-        if (personData.parents) {
-            for (var i = 0; i < personData.parents.length; i++) {
+            if (personData.parents) {
+                for (var i = 0; i < personData.parents.length; i++) {
+                    var query = {
+                        _id: personData.parents[i]
+                    };
+                    var newval = {
+                        $addToSet: {
+                            children: id
+                        }
+                    };
+                    col.updateOne(query, newval);
+                }
+            }
+
+            if (personData.children) {
+                for (var i = 0; i < personData.children.length; i++) {
+                    var query = {
+                        _id: personData.children[i]
+                    };
+                    var pop = {
+                        $pop: {
+                            parents: -1
+                        }
+                    }
+                    var newval = {
+                        $addToSet: {
+                            parents: id
+                        }
+                    };
+                    col.updateOne(query, pop, function (err, res) {
+                        if (err) throw err;
+                    })
+                    col.updateOne(query, newval, function (err, res) {
+                        if (err) throw err;
+                    })
+                }
+            }
+
+            if (personData.spouse) {
                 var query = {
-                    _id: personData.parents[i]
+                    _id: personData.spouse
                 };
                 var newval = {
-                    $addToSet: {
-                        children: id
+                    $set: {
+                        spouse: id
                     }
                 };
-                col.updateOne(query, newval, function (err, res) {
-                    if (err) throw err;
-                })
+                col.updateOne(query, newval);
             }
+        } catch (e) {
+            console.log(e);
         }
 
-        if (personData.children) {
-            for (var i = 0; i < personData.children.length; i++) {
-                var query = {
-                    _id: personData.children[i]
-                };
-                var pop = {
-                    $pop: {
-                        parents: -1
-                    }
-                }
-                var newval = {
-                    $addToSet: {
-                        parents: id
-                    }
-                };
-                col.updateOne(query, pop, function (err, res) {
-                    if (err) throw err;
-                })
-                col.updateOne(query, newval, function (err, res) {
-                    if (err) throw err;
-                })
-            }
-        }
-
-        if (personData.spouse) {
-            var query = {
-                _id: personData.spouse
-            };
-            var newval = {
-                $set: {
-                    spouse: id
-                }
-            };
-            col.updateOne(query, newval, function (err, res) {
-                if (err) throw err;
-            })
-        }
     });
 }
 
-/*
-var testPerson = {
-    firstName: "John",
-    middleName: "Andrew",
-    lastName: "Smith",
-    age: 40,
-    gender: "Male",
-    parents: [12345, 123456],
-    children: [1234567, 12345678, 123456789],
-    spouse: 12345677
+function getTree(personId) {
+    MongoClient.connect(url, {
+        useNewUrlParser: true
+    }, function (err, db) {
+        if (err) throw err;
+
+        let ret = [];
+
+        var db = db.db("famDB");
+        var col = db.collection("persons");
+
+        var query = {
+            _id: personId
+        };
+        try {
+            col.findOne(query, function (err, res) {
+                if (err) throw err;
+                if (res) {
+                    console.log(res);
+                }
+            })
+        } catch(e){
+            console.log(e);
+        }
+
+    })
 }
 
-addPerson(testPerson);
-*/
+//getTree(123)
+
 function submitEvent(event, reqId, data, name) {
     if (data == "loading") {
         data = {
