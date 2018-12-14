@@ -10,6 +10,12 @@ For this project, we will be making a family tree utilizing a range of technolog
 
 ## To Run
 'npm start'
+ALSO
+'npm run build' unless a /dist file exists
+'redis-server'
+
+## To Run with Nodemon
+'npm run start:dev'
 
 ## To Run with Nodemon
 'npm run start:dev'
@@ -21,7 +27,7 @@ For this project, we will be making a family tree utilizing a range of technolog
 'npm run load' will load a Mongo DB if it is already initialized 
 
 ## Github policy
-Please do not push to master. Please use branching and then push that branch to github and submit a PR. When you submit a PR please put the entire team as reviewers.
+Please do not push to master. Please use branching and then push that branch to github and submit a PR. When you submit a PR please put a team member as a reviewers.
 
 ## TODO LIST of tasks to complete
 - keycloak
@@ -31,6 +37,7 @@ Please do not push to master. Please use branching and then push that branch to 
 - Style dashboard
 - User specific front end components
 - Modals for nodes in tree
+
 
 ## Completed
 - Set up skeleton of code
