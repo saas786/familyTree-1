@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "start:dev": "concurrently \"nodemon server/app.js\" \"nodemon worker/worker.js\"",
-    "build": "webpack"
+    "build": "webpack",
+    "load": "node dbinit.js"
   },
   "author": "Zoe Millard",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "express": "4.16.4",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
+    "mongodb": "^3.1.10",
     "node-redis": "^0.1.7",
     "node-redis-pubsub": "^4.0.0",
     "node-uuid": "^1.4.8",
@@ -29,7 +31,8 @@
     "react-dom": "^16.5.2",
     "react-tree-graph": "^3.2.0",
     "reactstrap": "^6.5.0",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
