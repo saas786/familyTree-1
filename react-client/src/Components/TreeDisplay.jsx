@@ -6,39 +6,56 @@ import PersonNode from './PersonNode';
 
 const myTreeData = [
   {
-    name: "Jay Pritchet",
+    name: "Jay Pritchett",
     attributes: {
-      spouse: "Gloria Pritchet",
+      spouse: "Gloria Pritchett",
     },
     children: [
       {
-        name: "Claire Pritchet",
+        name: "Claire Pritchett",
         attributes: {
-          spouse: "Phil Dunfey"
+          spouse: "Phil Dunphy"
         },
         children: [
           {
-            name: "Hayley Dunfey",
+            name: "Hayley Dunphy",
             attributes: {
-              spouse: "",
-            },
+              spouse: ""
+            }
           },{
-            name: "Alex Dunfey",
+            name: "Alex Dunphy",
             attributes: {
-              spouse: "",
-            },
+              spouse: ""
+            }
           },{
-            name: "Son Dunfey",
+            name: "Luke Dunphy",
             attributes: {
-              spouse: "",
-            },
+              spouse: ""
+            }
           }
         ]
-      },
-      {
-        name: "Mitchell Pritchet",
+      },{
+        name: "Mitchell Pritchett",
         attributes: {
-          spouse: "Dean Something"
+          spouse: "Cameron Tucker"
+        },
+        children: [
+          {
+            name: "Lily Pritchett-Tucker",
+            attributes: {
+              spouse: ""
+            }
+          }
+        ]
+      },{
+        name: "Joe Pritchett",
+        attributes: {
+          spouse: ""
+        }
+      },{
+        name: "Manny Delgado",
+        attributes: {
+          spouse: ""
         }
       }
     ]
@@ -49,12 +66,13 @@ class TreeDisplay extends Component {
   render() {
     return (
       //{/* <Tree /> will fill width/height of its container; in this case `#treeWrapper` */}
-      <div id="treeWrapper" style={{ width: "50em", height: "20em" }}>
+      <div id="treeWrapper" style={{ width: "100%", height: "50vh" }}>
         <Tree data={myTreeData} pathFunc="elbow" orientation="verticle" allowForeignObjects 
         nodeLabelComponent={{
           render: <PersonNode className='myLabelComponentInSvg'/>,
           foreignObjectWrapper: {
-            y: 24
+            y: 24,
+            x: 5
           }
         }
       }/>

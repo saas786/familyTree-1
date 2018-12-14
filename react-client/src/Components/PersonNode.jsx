@@ -6,10 +6,13 @@ import React, { Component } from "react";
 class PersonNode extends Component {
   render() {
     const { className, nodeData } = this.props;
+    let person = nodeData.name;
+    if (nodeData.attributes.spouse != ""){
+      person +=` - ${nodeData.attributes.spouse}`;
+    }
     return (
       <div className="nodePerson">
-        <h1>{nodeData.name}</h1>
-        <h1>{nodeData.attributes.spouse}</h1>
+        <p>{person}</p>
       </div>
     );
   }
