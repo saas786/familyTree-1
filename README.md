@@ -38,3 +38,5 @@ Please do not push to master. Please use branching and then push that branch to 
 - Set up Redis
 - Set up Worker structure
 - Set up dashboard
+- Set up login component
+- Set up sign up component

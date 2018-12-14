@@ -17,7 +17,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div class="text-left">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginForm">
                     Login Here
                 </button>
@@ -40,6 +40,7 @@ class Login extends Component {
                                         <input type="text" class="form-control" id="password" placeholder="Enter your password" data-toggle="password" value={this.state.password} onChange={this.handleChange}></input>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
                                 </form>
                             </div>
                         </div>
