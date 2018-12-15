@@ -40,7 +40,6 @@ class App extends Component {
             <Link class="navbar-brand" to="/">JAMZ</Link>
             <ul class="navbar-nav mr-auto">
               <li class="nav-item"><Link to="/">About</Link></li>
-              <li class="nav-item"><Link to="/create/">Create</Link></li>
               <li class="nav-item"><Link to="/view/">View</Link></li>
             </ul>
             <p class="user" id="user-name">Please login!</p>

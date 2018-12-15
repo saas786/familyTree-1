@@ -2,10 +2,10 @@
 For this project, we will be making a family tree utilizing a range of technologies that we did not work with in class.
 
 ## Everything Needed to Run Application
-'npm run build' unless a /dist file exists
-'redis-server'
-'mongod'
-'npm run load'
+'npm run build' unless a /dist file exists,
+'redis-server',
+'mongod',
+'npm run load',
 'npm start'
 
 ## To Run
@@ -31,11 +31,6 @@ Please do not push to master. Please use branching and then push that branch to 
     - create realm and user (see website)
     - integration to application
     - set up login screen using react
-- User specific front end components
-- Modals for nodes in tree
-- SSR? 
-- Get tree from database
-
 
 ## Completed
 - Set up skeleton of code
@@ -53,3 +48,6 @@ Please do not push to master. Please use branching and then push that branch to 
 - Finished Family View
 - Finished FE Routes
 - style dashboard
+- Get tree from database
+- Modals for nodes in tree
+- User specific front end components
