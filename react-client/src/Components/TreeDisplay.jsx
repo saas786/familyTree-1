@@ -81,13 +81,13 @@ class TreeDisplay extends React.PureComponent {
         <Tree
         data={myTreeData}
         pathFunc="elbow"
-        orientation="verticle"
+        orientation="vertical"
         translate={this.state.translate}
         allowForeignObjects
         nodeLabelComponent={{
           render: <PersonNode className='myLabelComponentInSvg'/>,
           foreignObjectWrapper: {
-            y: 24,
+            y: 15,
             x: 5
           }
         }}/>
