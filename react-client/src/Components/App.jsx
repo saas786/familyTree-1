@@ -5,9 +5,21 @@ import TreeDisplay from "./TreeDisplay";
 import Octicon, {Person} from '@githubprimer/octicons-react'
 import CreateFamily from './CreateFamily';
 
-const Home = () => < Dashboard />;
+const Home = () => < Dashboard function={loadText} />;
 const Create = () => <h2>< CreateFamily /></h2>;
 const View = () => <TreeDisplay />;
+
+function loadText() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("user-name").innerHTML =
+      "Hello, User!";
+    }
+  };
+  xhttp.open("GET", "ajax_info.txt", true);
+  xhttp.send();
+}
 
 class App extends Component {
   // loginUser = event => {};
@@ -23,6 +35,7 @@ class App extends Component {
               <li class="nav-item"><Link to="/view/">View</Link></li>
             </ul>
             {/* <span class="nav-item mx-lg-2"> <User /></span> */}
+            <p class="user" id="user-name">Please login!</p>
             <div class="user">
               <Octicon icon={Person} />
             </div>

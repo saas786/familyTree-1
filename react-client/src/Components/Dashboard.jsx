@@ -16,8 +16,8 @@ class Dashboard extends Component {
                         </div>
                     </div>
                     <ul class="list-inline text-center">
-                        <li class="list-inline-item"> <Login /> </li>
-                        <li class="list-inline-item"> <Signup /> </li>
+                        <li class="list-inline-item"> <Login function={this.props.function}/> </li>
+                        <li class="list-inline-item"> <Signup function={this.props.function}/> </li>
                     </ul>
                 </main>
                 

@@ -18,7 +18,7 @@ class Login extends Component {
     render() {
         return (
             <div class="text-left">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginForm">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginForm" onClick={this.props.function}>
                     Login Here
                 </button>
 
