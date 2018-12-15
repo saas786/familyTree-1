@@ -62,7 +62,7 @@ const myTreeData = [
   }
 ];
 
-class TreeDisplay extends React.PureComponent {
+class TreeDisplay extends Component {
   state = {}
 
   componentDidMount() {
