@@ -4,110 +4,6 @@ const uuidv4 = require("uuid/v4");
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 
-async function addPerson(personData) {
-    MongoClient.connect(url, {
-        useNewUrlParser: true
-    }, function (err, db) {
-        if (err) throw err;
-
-        var db = db.db("famDB");
-        var col = db.collection("persons");
-
-        if (!personData._id){
-            var id = uuidv4();
-            personData._id = id;
-        }
-        
-        try {
-
-            col.insertOne(personData);
-
-            if (personData.parents) {
-                for (var i = 0; i < personData.parents.length; i++) {
-                    var query = {
-                        _id: personData.parents[i]
-                    };
-                    var newval = {
-                        $addToSet: {
-                            children: id
-                        }
-                    };
-                    col.updateOne(query, newval);
-                }
-            }
-
-            if (personData.children) {
-                for (var i = 0; i < personData.children.length; i++) {
-                    var query = {
-                        _id: personData.children[i]
-                    };
-                    var pop = {
-                        $pop: {
-                            parents: -1
-                        }
-                    }
-                    var newval = {
-                        $addToSet: {
-                            parents: id
-                        }
-                    };
-                    col.updateOne(query, pop, function (err, res) {
-                        if (err) throw err;
-                    })
-                    col.updateOne(query, newval, function (err, res) {
-                        if (err) throw err;
-                    })
-                }
-            }
-
-            if (personData.spouse) {
-                var query = {
-                    _id: personData.spouse
-                };
-                var newval = {
-                    $set: {
-                        spouse: id
-                    }
-                };
-                col.updateOne(query, newval);
-            }
-        } catch (e) {
-            console.log(e);
-        }
-
-    });
-}
-
-function getTree(personId) {
-    MongoClient.connect(url, {
-        useNewUrlParser: true
-    }, function (err, db) {
-        if (err) throw err;
-
-        let ret = [];
-
-        var db = db.db("famDB");
-        var col = db.collection("persons");
-
-        var query = {
-            _id: personId
-        };
-        try {
-            col.findOne(query, function (err, res) {
-                if (err) throw err;
-                if (res) {
-                    console.log(res);
-                }
-            })
-        } catch(e){
-            console.log(e);
-        }
-
-    })
-}
-
-//getTree(123)
-
 function submitEvent(event, reqId, data, name) {
     if (data == "loading") {
         data = {
@@ -121,23 +17,116 @@ function submitEvent(event, reqId, data, name) {
     });
 }
 
-redisConnection.on("GET:request:*", async (message, channel) => {
+redisConnection.on("POST:request:*", async (message, channel) => {
     let requestId = message.requestId;
     let eventName = message.eventName;
     var failedEvent = `${eventName}:failed:${requestId}`;
     let successEvent = `${eventName}:success:${requestId}`;
 
-    try {
-        if (1 == 1) {
-            submitEvent(successEvent, requestId, "submit", eventName);
-        }
-        throw 'User not found'
+    var personData = message.data;
+    //console.log(personData);
+    try{
+        MongoClient.connect(url, {
+            useNewUrlParser: true
+        }, function (err, db) {
+            if (err) throw err;
 
+            var dbo = db.db("famdb");
+            var col = dbo.collection("persons");
+
+            if (!personData._id) {
+                var id = uuidv4();
+                personData._id = id;
+            }
+
+            var pquery = {
+                firstName: personData.parents.p.firstName,
+                lastName: personData.parents.p.lastName
+            };
+
+            var mquery = {
+                firstName: personData.parents.m.firstName,
+                lastName: personData.parents.m.lastName
+            };
+            
+            col.findOne(pquery, function (err, res) {
+                if (err) throw err;
+
+                personData.pline = res.pline;
+
+                col.findOne(mquery, function (err, mres) {
+                    if (err) throw err;
+
+                    personData.mline = mres.mline;
+
+                    if (personData.gender == "Male") {
+                        personData.pline.push(personData._id);
+                    } else {
+                        personData.mline.push(personData._id);
+                    }
+                    col.insertOne(personData, function (err, res) {
+                        if (err) throw err;
+                        data = res.result;
+                        data.id = personData._id;
+                        submitEvent(successEvent, requestId, data, eventName);
+
+                    })
+                })
+            })
+        })
     } catch (e) {
         data = {
             error: `Web worker encountered error: ${e}`
         }
         submitEvent(failedEvent, requestId, data, eventName);
     }
+});
 
+redisConnection.on("GET:request:*", async (message, channel) => {
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+    var failedEvent = `${eventName}:failed:${requestId}`;
+    let successEvent = `${eventName}:success:${requestId}`;
+
+    var personId = message.data.id;
+    //console.log(personId);
+    var line = message.data.line;
+
+    try {
+        MongoClient.connect(url, {
+            useNewUrlParser: true
+        }, async function (err, db) {
+            var dbo = db.db("famdb");
+            var col = dbo.collection("persons");
+
+            var query = {
+                _id: personId
+            };
+
+            col.findOne(query, function (err, res) {
+                if (err) throw err;
+                var lquery = {};
+                try {
+                    if (line == "pline") {
+                        lquery.pline = res.pline[0];
+                    } else {
+                        
+                        lquery.mline = res.mline[0];
+                    }
+                    col.find(lquery).toArray(function (err, res) {
+                        if (err) throw err;
+                        data = res;
+                        submitEvent(successEvent, requestId, res, eventName);
+                    })
+                } catch (e) {
+                    throw e;
+                }
+            })
+        })
+    } catch (e) {
+        data = {
+            error: `Web worker encountered error: ${e}`
+        }
+        submitEvent(failedEvent, requestId, data, eventName);
+    }
 });
