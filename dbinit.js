@@ -26,9 +26,7 @@ const testFam = [{
         age: 60,
         gender: "Male",
         pline: [1231],
-        children: {
-            parent1: [123]
-        },
+        children: [123],
         spouse: {
             firstName: "Stella",
             lastName: "Smith",
@@ -42,9 +40,7 @@ const testFam = [{
         age: 61,
         gender: "Female",
         mline: [1231],
-        children: {
-            parent2: [123]
-        },
+        children: [123],
         spouse: {
             firstName: "Callaghan",
             middleName: "Vaughn",
@@ -59,9 +55,7 @@ const testFam = [{
         age: 65,
         gender: "Male",
         pline: [12341],
-        children: {
-            parent1: [1234]
-        },
+        children: [1234],
         spouse: {
             firstName: "Louise",
             lastName: "Creighton",
@@ -75,9 +69,7 @@ const testFam = [{
         age: 63,
         gender: "Female",
         mline: [12342],
-        children: {
-            parent2: [1234]
-        },
+        children: [1234],
         spouse: {
             firstName: "Lawrence",
             lastName: "Creighton",
@@ -97,9 +89,7 @@ const testFam = [{
             p: 1231,
             m: 1232
         },
-        children: {
-            parent1: [2231, 2232, 2233]
-        },
+        children: [2231, 2232, 2233],
         spouse: {
             firstName: "Mary",
             lastName: "Smith",
@@ -119,9 +109,7 @@ const testFam = [{
         },
         pline: [12341],
         mline: [12342, 1234],
-        children: {
-            parent2: [2231, 2232, 2233]
-        },
+        children: [2231, 2232, 2233],
         spouse: {
             firstName: "Andrew",
             lastName: "Smith",
