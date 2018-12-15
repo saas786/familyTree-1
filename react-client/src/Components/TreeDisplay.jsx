@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Tree from "react-d3-tree";
 import PersonNode from './PersonNode';
-import CreateNode from './CreateNode';
 
 /* Uses https://github.com/bkrem/react-d3-tree for basic tree logic*/
 
@@ -68,8 +67,7 @@ class TreeDisplay extends Component {
     return (
       //{/* <Tree /> will fill width/height of its container; in this case `#treeWrapper` */}
       <div id="treeWrapper">
-        <Tree data={myTreeData} pathFunc="elbow" orientation="verticle" allowForeignObjects 
-        nodeLabelComponent={{
+        <Tree data={myTreeData} pathFunc="elbow" orientation="verticle" allowForeignObjects nodeLabelComponent={{
           render: <PersonNode className='myLabelComponentInSvg'/>,
           foreignObjectWrapper: {
             y: 24,
@@ -77,9 +75,6 @@ class TreeDisplay extends Component {
           }
         }
       }/>
-      <ul class="list-inline text-center">
-        <li class="list-inline-item"><CreateNode /></li>
-      </ul>
       </div>
     );
   }
