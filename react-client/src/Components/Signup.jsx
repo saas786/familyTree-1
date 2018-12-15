@@ -8,6 +8,12 @@ class Signup extends Component {
             lastname: "",
             age: null,
             gender: "",
+            parents: {
+                pf: "",
+                pl: "",
+                mf: "",
+                ml: ""
+            },
             username: "",
             password: ""
         };
@@ -38,24 +44,30 @@ class Signup extends Component {
                             <div class="modal-body">
                                 <form>
                                     <div class="form-group">
-                                        <label for="firstname"> First Name: </label>
-                                        <input type="text" class="form-control" id="firstname" placeholder="Enter your first name" value={this.state.firstname} onChange={this.handleChange}></input>
-                                        <label for="lastname"> Last Name: </label>
-                                        <input type="text" class="form-control" id="lastname" placeholder="Enter your last name" value={this.state.lastname} onChange={this.handleChange}></input>
-                                        <label for="age"> Age: </label>
-                                        <input type="number" class="form-control" id="age" value={this.state.age} onChange={this.handleChange}></input>
-                                        
-                                        <div class="radio">
-                                            <label for="gender"> Gender: </label> <br />
-                                            <input type="radio" id="gender" value="Male" checked={this.state.gender==="Male"} onChange={this.handleChange} /> Male <br />
-                                            <input type="radio" id="gender" value="Female" checked={this.state.gender==="Female"} onChange={this.handleChange} /> Female <br />
-                                            <input type="radio" id="gender" value="Other" checked={this.state.gender==="Other"} onChange={this.handleChange} />Prefer not to say
-                                        </div>
-
-                                        <label for="username">Create a Username</label>
-                                        <input type="text" class="form-control" id="username" placeholder="Enter your username" value={this.state.username} onChange={this.handleChange}></input>
-                                        <label for="password">Create a Password</label>
-                                        <input type="password" class="form-control" id="password" placeholder="Enter your password" data-toggle="password" value={this.state.password} onChange={this.handleChange}></input>
+                                        <h2>Father:</h2>
+                                        <label for="p1firstname">First Name:</label>
+                                        <input type="text" class="form-control" id="p1firstname" placeholder="Enter your first name" value={this.state.parents.pf} onChange={this.handleChange} />
+                                        <label for="p1lastname">Last Name:</label>
+                                        <input type="text" class="form-control" id="p1lastname" placeholder="Enter your last name" value={this.state.parents.pl} onChange={this.handleChange} />
+                                        <h2>Mother:</h2>
+                                        <label for="p2firstname">First Name:</label>
+                                        <input type="text" class="form-control" id="p2firstname" placeholder="Enter your first name" value={this.state.parents.mf} onChange={this.handleChange} />
+                                        <label for="p2lastname">Last Name:</label>
+                                        <input type="text" class="form-control" id="p2lastname" placeholder="Enter your last name" value={this.state.parents.ml} onChange={this.handleChange} />
+                                        <h2>Your Info:</h2>
+                                        <label for="firstname">First Name:</label>
+                                        <input type="text" class="form-control" id="firstname" placeholder="Enter your first name" value={this.state.firstname} onChange={this.handleChange} />
+                                        <label for="lastname">Last Name:</label>
+                                        <input type="text" class="form-control" id="lastname" placeholder="Enter your last name" value={this.state.lastname} onChange={this.handleChange} />
+                                        <label for="age">Age:</label>
+                                        <input type="number" class="form-control" id="age" value={this.state.age} onChange={this.handleChange} />
+                                        <label for="gender">
+                                            Gender:
+                                            <select value={this.state.gender} onChange={this.fileChange}>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </label>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                     <button type="reset" class="btn btn-secondary">Reset</button>

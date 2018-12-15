@@ -22,7 +22,6 @@ MongoClient.connect(url, {
 const testFam = [{
         _id: 1231,
         firstName: "Callaghan",
-        middleName: "Vaughn",
         lastName: "Smith",
         age: 60,
         gender: "Male",
@@ -56,7 +55,6 @@ const testFam = [{
     {
         _id: 12341,
         firstName: "Lawrence",
-        middleName: "Michael",
         lastName: "Creighton",
         age: 65,
         gender: "Male",
@@ -66,7 +64,6 @@ const testFam = [{
         },
         spouse: {
             firstName: "Louise",
-            middleName: "Marie",
             lastName: "Creighton",
             _id: 12342
         }
@@ -74,7 +71,6 @@ const testFam = [{
     {
         _id: 12342,
         firstName: "Louise",
-        middleName: "Marie",
         lastName: "Creighton",
         age: 63,
         gender: "Female",
@@ -84,7 +80,6 @@ const testFam = [{
         },
         spouse: {
             firstName: "Lawrence",
-            middleName: "Michael",
             lastName: "Creighton",
             _id: 12341
         }
@@ -92,7 +87,6 @@ const testFam = [{
     {
         _id: 123,
         firstName: "Andrew",
-        middleName: "John",
         lastName: "Smith",
         title: "Sr.",
         age: 40,
@@ -108,7 +102,6 @@ const testFam = [{
         },
         spouse: {
             firstName: "Mary",
-            middleName: "Jane",
             lastName: "Smith",
             _id: 1234
         }
@@ -131,7 +124,6 @@ const testFam = [{
         },
         spouse: {
             firstName: "Andrew",
-            middleName: "John",
             lastName: "Smith",
             _id: 123
         }
@@ -139,9 +131,7 @@ const testFam = [{
     {
         _id: 2231,
         firstName: "Andrew",
-        middleName: "John",
         lastName: "Smith",
-        title: "Jr.",
         age: 15,
         gender: "Male",
         parents: {
@@ -167,9 +157,7 @@ const testFam = [{
     {
         _id: 2233,
         firstName: "Randall",
-        middleName: "Jay",
         lastName: "Smith",
-        title: "Jr.",
         age: 12,
         gender: "Male",
         parents: {
