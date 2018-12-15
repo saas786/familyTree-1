@@ -25,7 +25,7 @@ redisConnection.on("POST:request:*", async (message, channel) => {
 
     var personData = message.data;
     //console.log(personData);
-    try{
+    try {
         MongoClient.connect(url, {
             useNewUrlParser: true
         }, function (err, db) {
@@ -48,7 +48,7 @@ redisConnection.on("POST:request:*", async (message, channel) => {
                 firstName: personData.parents.m.firstName,
                 lastName: personData.parents.m.lastName
             };
-            
+
             col.findOne(pquery, function (err, res) {
                 if (err) throw err;
 
@@ -69,8 +69,17 @@ redisConnection.on("POST:request:*", async (message, channel) => {
                         data = res.result;
                         data.id = personData._id;
                         submitEvent(successEvent, requestId, data, eventName);
-
                     })
+                })
+                col.updateOne(mquery, {
+                    $addToSet: {
+                        children: personData._id
+                    }
+                })
+                col.updateOne(pquery, {
+                    $addToSet: {
+                        children: personData._id
+                    }
                 })
             })
         })
@@ -110,7 +119,7 @@ redisConnection.on("GET:request:*", async (message, channel) => {
                     if (line == "pline") {
                         lquery.pline = res.pline[0];
                     } else {
-                        
+
                         lquery.mline = res.mline[0];
                     }
                     col.find(lquery).toArray(function (err, res) {

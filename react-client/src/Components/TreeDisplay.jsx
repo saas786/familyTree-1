@@ -5,8 +5,8 @@ const axios = require("axios");
 
 /* Uses https://github.com/bkrem/react-d3-tree for basic tree logic*/
 
-var data  = null;
-var fam = null;
+var data = null;
+var fam = [];
 
 const myTreeData = [
   {
@@ -26,19 +26,19 @@ const myTreeData = [
             attributes: {
               spouse: ""
             }
-          },{
+          }, {
             name: "Alex Dunphy",
             attributes: {
               spouse: ""
             }
-          },{
+          }, {
             name: "Luke Dunphy",
             attributes: {
               spouse: ""
             }
           }
         ]
-      },{
+      }, {
         name: "Mitchell Pritchett",
         attributes: {
           spouse: "Cameron Tucker"
@@ -51,12 +51,12 @@ const myTreeData = [
             }
           }
         ]
-      },{
+      }, {
         name: "Joe Pritchett",
         attributes: {
           spouse: ""
         }
-      },{
+      }, {
         name: "Manny Delgado",
         attributes: {
           spouse: ""
@@ -84,6 +84,8 @@ class CreateFamily extends Component {
     };
     this.upload = this.upload.bind(this);
     this.getTree = this.getTree.bind(this);
+    this.getKids = this.getKids.bind(this);
+    this.sanitize = this.sanitize.bind(this);
 
   }
 
@@ -93,57 +95,58 @@ class CreateFamily extends Component {
     });
   };
 
-  sanitize(i){
-    if(data[i]){
-      fam=[
-        {
-          name: " " + data[i].firstName + " " + data[i].lastName + " ",
-          attributes: {
-            spouse: " " + data[i].spouse.firstName + " " + data[i].spouse.lastName + " ",
-            index: i
-          },
-          children: []
-        }
-      ];
-      console.log(fam);
-      console.log(data[i].children);
-      if(data[i].children){
-        console.log("here");
-        getKids(data[i].children, i, "fam.children")
-      }else{
-        sanitize(i+1);
+  sanitize() {
+    if (data[0]) {
+      var root = data.splice(0, 1)[0];
+      console.log("root: ");
+      console.log(root);
+      var node = {};
+      console.log(node);
+      node.name = `${root.firstName} ${root.lastName}`;
+      console.log(node);
+      node.attributes = {};
+
+      //PROBLEM HERE: node.attributes.spouse is not being created
+      node.attributes.spouse = `${root.spouse.firstName} ${root.spouse.lastName}`;
+      node.attributes.index = i;
+      console.log(node);
+      node.children = [];
+      console.log(node);
+      console.log(root.children);
+      if (root.children) {
+        fam.push(this.getKids(root.children, node));
       }
+      fam.push(node);
+      this.sanitize()
     }
   }
 
-  getKids(arr, loc, k){
-    console.log("in get kids");
-    for(var j = 0; j < arr.length; j++){
-      console.log("j: " + j);
-      for(var i = 0; i < data.length; i++){
-        console.log("i: " + i);
-        if(arr[j] == data[i]._id){
-          famMember=[
-            {
-              name: " " + data[i].firstName + " " + data[i].lastName + " ",
-              attributes: {
-                spouse: " " + data[i].spouse.firstName + " " + data[i].spouse.lastName + " ",
-                index: i
-              },
-              children: []
-            }
-          ];
-          console.log(famMember);
-          console.log(data[i].children);
-          if(data[i].children){
-            getKids(data[i].children, i, k.children);
-          }else{
-            k[i].push(famMember)
+  getKids(children, parent) {
+    console.log(children);
+    for (var i = 0; i < children.length; i++) {
+      for (var j = 0; j < data.length; j++) {
+        if (children.includes(data[i]._id)) {
+          console.log("child: " + data[i]._id);
+
+          var child = data.splice(j, 1);
+          childObj = {};
+          childObj.name = `${root.firstName} ${root.lastName}`;
+          //console.log(node);
+          childObj.attributes = {};
+          childObj.attributes.spouse = `${root.spouse.firstName} ${root.spouse.lastName}`;
+          childObj.attributes.index = i;
+          //console.log(node);
+          childObj.children = [];
+          //console.log(node);
+          if (child.children) {
+            childObj.children.push(this.getKids(child.children, childObj));
           }
-        };
-      };
-    };
-  };
+          parent.children.push(childObj);
+        }
+      }
+    }
+    return parent;
+  }
 
   upload() {
     const data = {
@@ -178,7 +181,7 @@ class CreateFamily extends Component {
         this.setState({ tree: res.data });
         console.log(this.state.tree);
         data = res.data;
-        this.sanitize(0);
+        this.sanitize();
       }).catch(res => {
         this.setState({ ok: 0 });
       });
@@ -239,19 +242,19 @@ class TreeDisplay extends React.PureComponent {
     return (
       <div id="treeWrapper" ref={tc => (this.treeContainer = tc)}>
         <Tree
-        data={myTreeData}
-        pathFunc="elbow"
-        orientation="vertical"
-        translate={this.state.translate}
-        allowForeignObjects
-        nodeLabelComponent={{
-          render: <PersonNode className='myLabelComponentInSvg'/>,
-          foreignObjectWrapper: {
-            y: 15,
-            x: 5
-          }
-        }}/>
-        <CreateFamily/>
+          data={myTreeData}
+          pathFunc="elbow"
+          orientation="vertical"
+          translate={this.state.translate}
+          allowForeignObjects
+          nodeLabelComponent={{
+            render: <PersonNode className='myLabelComponentInSvg' />,
+            foreignObjectWrapper: {
+              y: 15,
+              x: 5
+            }
+          }} />
+        <CreateFamily />
       </div>
     );
   }
