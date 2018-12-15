@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-/* Might want to use these to imlement logic about single person vs. couple */
-// import SinglePerson from './SinglePerson';
-// import Couple from './Couple';
 
 class PersonNode extends Component {
   render() {
@@ -12,12 +9,11 @@ class PersonNode extends Component {
     }
     return (
       <div className="nodePerson">
-        <p>{person}</p>
+        <button type="button" class="btn-dark">
+        {person}
+        </button>
       </div>
     );
   }
 }
 export default PersonNode;
-// {nodeData._children && (
-//     <button>{nodeData._collapsed ? "Expand" : "Collapse"}</button>
-//   )}
