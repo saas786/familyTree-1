@@ -17,7 +17,8 @@ a:hover {
     text-decoration: none;
 }
 .user{
-    float:right;
+    float: right;
+    margin: 10px;
 }
 #treeWrapper{
     width: 100%;

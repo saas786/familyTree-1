@@ -22,7 +22,7 @@ class Signup extends Component {
     render() {
         return (
             <div class="text-left">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signUpForm">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signUpForm" onClick={this.props.function}>
                     Sign Up Here
                 </button>
 
