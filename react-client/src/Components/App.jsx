@@ -50,6 +50,7 @@ class App extends Component {
           <Route path="/" component={Home} />
           <Route path="/login" component={LoginHere} />
           <Route path="/view/" component={View} />
+          {/* "Routes" should change but cannot because of issues with the way authentication works with routing. */}
         </div>
       </Router>
     );
