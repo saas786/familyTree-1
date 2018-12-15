@@ -32,9 +32,7 @@ class CreateFamily extends Component {
             <label for="age">Age:</label>
             <input type="number" class="form-control" id="age" value={this.state.age} onChange={this.handleChange}/>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Submit
-          </button>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
     );
