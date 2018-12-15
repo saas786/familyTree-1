@@ -4,12 +4,16 @@ class PersonNode extends Component {
   render() {
     const { className, nodeData } = this.props;
     let person = nodeData.name;
+    let person_info = "";
     if (nodeData.attributes.spouse != ""){
       person +=` - ${nodeData.attributes.spouse}`;
     }
+
+    person_info += `Name: ${nodeData.name}, Spouse: ${nodeData.attributes.spouse}`;
+
     return (
       <div className="nodePerson">
-        <button type="button" class="btn-dark">
+        <button type="button" class="btn-dark" data-toggle="tooltip" data-placement="top" title={JSON.stringify(person_info)}>
         {person}
         </button>
       </div>
