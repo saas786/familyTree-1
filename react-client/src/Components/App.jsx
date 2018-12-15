@@ -5,7 +5,7 @@ import TreeDisplay from "./TreeDisplay";
 import Octicon, {Person} from '@githubprimer/octicons-react'
 
 const Home = () => < Dashboard />;
-const Create = () => <h2>About</h2>;
+const Create = () => <h2>Create</h2>;
 const View = () => <TreeDisplay />;
 
 class App extends Component {

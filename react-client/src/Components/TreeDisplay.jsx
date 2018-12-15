@@ -66,7 +66,7 @@ class TreeDisplay extends Component {
   render() {
     return (
       //{/* <Tree /> will fill width/height of its container; in this case `#treeWrapper` */}
-      <div id="treeWrapper" style={{ width: "100%", height: "50vh" }}>
+      <div id="treeWrapper">
         <Tree data={myTreeData} pathFunc="elbow" orientation="verticle" allowForeignObjects 
         nodeLabelComponent={{
           render: <PersonNode className='myLabelComponentInSvg'/>,
