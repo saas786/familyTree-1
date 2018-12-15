@@ -11,6 +11,8 @@ class Dashboard extends Component {
                     <div className="jumbotron">
                         <div className="container">
                             <h1 className="display-3"> Welcome to Your Family Tree</h1>
+                            <p>Our application allows you to trace your patrilineal or matrilineal line (mothers side or fathers side) and explore your heritage.</p>
+                            <p>Please login in order to begin your journey</p>
                         </div>
                     </div>
                     <ul class="list-inline text-center">
