@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+const axios = require("axios");
 
 class CreateFamily extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id:"",
+      id: "",
       firstname: "",
       lastname: "",
       pf: "",
@@ -13,8 +14,12 @@ class CreateFamily extends Component {
       ml: "",
       age: null,
       gender: "",
-      message: ""
+      ok: "",
+      tree: null,
     };
+    this.upload = this.upload.bind(this);
+    this.getTree = this.getTree.bind(this);
+
   }
 
   handleChange = event => {
@@ -24,21 +29,40 @@ class CreateFamily extends Component {
   };
 
   upload() {
-    const data = new FormData();
+    const data = {
+      firstName: this.state.firstname,
+      lastName: this.state.lastname,
+      pf: this.state.pf,
+      pl: this.state.pl,
+      mf: this.state.mf,
+      ml: this.state.ml,
+      age: this.state.age,
+      gender: this.state.gender
+    };
     const addEndpoint = "http://localhost:3000/api/person/"
 
     axios
       .post(addEndpoint, data) //sends csv to a data endpoint
       .then(res => {
-        this.setState({id: res.data._id});
-        this.setState({message: res.data.message});
-        this.loading();
+        this.setState({ id: res.data.id });
+        this.setState({ ok: res.data.ok });
+        this.getTree();
       }).catch(res => {
-        this.setState({message: res.data.message});
+        this.setState({ ok: 0 });
       });
-      
   };
 
+  getTree() {
+    const endpoint = "http://localhost:3000/api/pline/" + this.state.id;
+    axios
+      .get(endpoint)
+      .then(res => {
+        this.setState({ tree: res.data });
+        console.log(this.state.tree);
+      }).catch(res => {
+        this.setState({ ok: 0 });
+      });
+  };
 
   render() {
     return (

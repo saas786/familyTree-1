@@ -7,6 +7,7 @@ const app = express();
 const redisConnection = require("./redis-connection");
 const nrpSender = require("./nrp-sender-shim");
 
+
 app.use(bodyParser.json());
 app.use(express.static(`${__dirname}/../react-client/dist`));
 
@@ -20,7 +21,7 @@ app.get("/api/pline/:id", async (req, res) => {
           redis: redisConnection,
           eventName: "GET",
           data: {
-              id: Number(req.params.id),
+              id: req.params.id,
               line: "pline"
           }
       });
