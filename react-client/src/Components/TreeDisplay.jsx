@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Tree from "react-d3-tree";
 import PersonNode from './PersonNode';
+import CreateNode from './CreateNode';
 
 /* Uses https://github.com/bkrem/react-d3-tree for basic tree logic*/
 
@@ -76,6 +77,9 @@ class TreeDisplay extends Component {
           }
         }
       }/>
+      <ul class="list-inline text-center">
+        <li class="list-inline-item"><CreateNode /></li>
+      </ul>
       </div>
     );
   }
