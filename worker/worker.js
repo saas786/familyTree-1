@@ -10,7 +10,7 @@ async function addPerson(personData) {
     }, function (err, db) {
         if (err) throw err;
 
-        var dbo = db.db("famDB");
+        var dbo = db.db("famdb");
         var col = dbo.collection("persons");
 
         if (!personData._id) {
@@ -19,161 +19,101 @@ async function addPerson(personData) {
         }
 
         try {
+            var pquery = {
+                _id: personData.parents.p
+            };
 
-            col.insertOne(personData);
+            var mquery = {
+                _id: personData.parents.m
+            };
 
-            if (personData.parents) {
-                for (var i = 0; i < personData.parents.length; i++) {
-                    var query = {
-                        _id: personData.parents[i]
-                    };
-                    var newval = {
-                        $addToSet: {
-                            children: id
-                        }
-                    };
-                    col.updateOne(query, newval);
+            col.findOne(pquery, function (err, res) {
+                if (err) {
+                    console.log(err);
                 }
-            }
 
-            if (personData.children) {
-                for (var i = 0; i < personData.children.length; i++) {
-                    var query = {
-                        _id: personData.children[i]
-                    };
-                    var pop = {
-                        $pop: {
-                            parents: -1
-                        }
-                    }
-                    var newval = {
-                        $addToSet: {
-                            parents: id
-                        }
-                    };
-                    col.updateOne(query, pop, function (err, res) {
-                        if (err) throw err;
-                    })
-                    col.updateOne(query, newval, function (err, res) {
-                        if (err) throw err;
-                    })
-                }
-            }
+                personData.pline = res.pline;
 
-            if (personData.spouse) {
-                var query = {
-                    _id: personData.spouse
-                };
-                var newval = {
-                    $set: {
-                        spouse: id
+                col.findOne(mquery, function (err, mres) {
+                    if (err) {
+                        console.log(err);
                     }
-                };
-                col.updateOne(query, newval);
-            }
+
+                    personData.mline = mres.mline;
+
+                    if (personData.gender == "Male") {
+                        personData.pline.push(personData._id);
+                    } else {
+                        personData.mline.push(personData._id);
+                    }
+                    col.insertOne(personData, function(err, res){
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                })
+            })
+
         } catch (e) {
-            console.log(e);
+            console.log;
         }
-
     });
 }
 
-async function findUp(pArr, col) {
-    var top = [];
-    for (var i = 0; i < 2; i++) {
-        var query = {
-            _id: pArr[i]
-        };
-        try {
-            col.findOne(query, async function (err, res) {
-                if (err) throw err;
-
-                if (res.parents) {
-                    let parentArr = [res.parents.parent1, res.parents.parent2];
-                    top.concat(await findUp(parentArr, col));
-                } else {
-                    top.push(res._id);
-                }
-
-            })
-        } catch (e) {
-            console.log(e)
-        }
+/*
+var test = {
+    _id: 4321,
+    firstName: "Testley",
+    middleName: "Snipes",
+    lastName: "Smith",
+    age: 20,
+    gender: "Male",
+    parents: {
+        p: 123,
+        m: 1234
     }
-    /*
-    setTimeout(function () {
-        return top
-    }, 500);
-    */
 }
 
-async function findDown(cArr, col) {
-    var bottom = [];
-    for (var i = 0; i < cArr.length; i++) {
-        var query = {
-            _id: cArr[i]
-        };
-        try {
-            col.findOne(query, async function (err, res) {
-                if (err) throw err;
+//addPerson(test);
+*/
 
-                if (res.children) {
-                    let childArr = Object.values(res.children)[0];
-                    bottom.concat(await findDown(childArr, col));
-                } else {
-                    bottom.push(res._id);
-                }
-            });
-        } catch (e) {
-            console.log(e)
-        }
-    }
-    setTimeout(function () {
-        return bottom;
-    }, 500);
-}
-
-async function getTree(personId) {
+async function getTree(personId, line) {
 
     MongoClient.connect(url, {
         useNewUrlParser: true
     }, async function (err, db) {
-        var dbo = db.db("famDB");
+        var dbo = db.db("famdb");
         var col = dbo.collection("persons");
-
-        var childTree = [];
-        var parentTree = [];
 
         var query = {
             _id: personId
         };
-        
-        try {
-            col.findOne(query, async function (err, res) {
-                if (err) throw err;
 
+        col.findOne(query, function(err, res){
+            if (err) {
+                console.log(err);
+            }
 
-                if (res.children) {
-                    let childArr = Object.values(res.children)[0];
-                    childTree.concat(await findDown(childArr, col));
+            var lquery = {};
+
+            if (line == "pline"){
+                lquery.pline = res.pline[0];
+            } else {
+                lquery.mline = res.mline[0];
+            }
+            
+            col.find(lquery).toArray(function(err, res){
+                if (err) {
+                    console.log(err);
                 }
-                if (res.parents) {
-                    let parentArr = [res.parents.parent1, res.parents.parent2];
-                    parentTree.concat(await findUp(parentArr, col));
+                for (var i = 0; i < res.length; i++){
+                    console.log(res[i]);
                 }
-            });
+            })
 
-        } catch (e) {
-            console.log(e);
-        }
-        setTimeout(function () {
-            console.log("top: " + childTree);
-            console.log("bottom: " + parentTree);
-        }, 1000)
+        })
     })
 }
-
-getTree(123);
 
 function submitEvent(event, reqId, data, name) {
     if (data == "loading") {
