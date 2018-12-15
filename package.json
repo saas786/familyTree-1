@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "concurrently \"node server/app.js\" \"node worker/worker.js\"",
     "start:dev": "concurrently \"nodemon server/app.js\" \"nodemon worker/worker.js\"",
     "build": "webpack",
     "load": "node dbinit.js"
