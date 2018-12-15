@@ -62,19 +62,35 @@ const myTreeData = [
   }
 ];
 
-class TreeDisplay extends Component {
+class TreeDisplay extends React.PureComponent {
+  state = {}
+
+  componentDidMount() {
+    const dimensions = this.treeContainer.getBoundingClientRect();
+    this.setState({
+      translate: {
+        x: dimensions.width / 2,
+        y: dimensions.height / 4
+      }
+    });
+  };
+
   render() {
     return (
-      //{/* <Tree /> will fill width/height of its container; in this case `#treeWrapper` */}
-      <div id="treeWrapper">
-        <Tree data={myTreeData} pathFunc="elbow" orientation="verticle" allowForeignObjects nodeLabelComponent={{
+      <div id="treeWrapper" ref={tc => (this.treeContainer = tc)}>
+        <Tree
+        data={myTreeData}
+        pathFunc="elbow"
+        orientation="verticle"
+        translate={this.state.translate}
+        allowForeignObjects
+        nodeLabelComponent={{
           render: <PersonNode className='myLabelComponentInSvg'/>,
           foreignObjectWrapper: {
             y: 24,
             x: 5
           }
-        }
-      }/>
+        }}/>
       </div>
     );
   }
