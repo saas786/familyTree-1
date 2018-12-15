@@ -6,8 +6,8 @@ MongoClient.connect(url, {
 }, function (err, db) {
     if (err) throw err;
 
-    var db = db.db("famDB");
-    var col = db.collection("persons");
+    var dbo = db.db("famDB");
+    var col = dbo.collection("persons");
 
     for (var i = 0; i < testFam.length; i++) {
         try {
@@ -16,12 +16,13 @@ MongoClient.connect(url, {
             console.log(e)
         }
     }
+    db.close();
 });
 
 const testFam = [{
         _id: 123,
-        firstName: "John",
-        middleName: "Andrew",
+        firstName: "Andrew",
+        middleName: "John",
         lastName: "Smith",
         title: "Sr.",
         age: 40,

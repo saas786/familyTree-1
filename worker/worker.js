@@ -10,14 +10,14 @@ async function addPerson(personData) {
     }, function (err, db) {
         if (err) throw err;
 
-        var db = db.db("famDB");
-        var col = db.collection("persons");
+        var dbo = db.db("famDB");
+        var col = dbo.collection("persons");
 
-        if (!personData._id){
+        if (!personData._id) {
             var id = uuidv4();
             personData._id = id;
         }
-        
+
         try {
 
             col.insertOne(personData);
@@ -78,35 +78,102 @@ async function addPerson(personData) {
     });
 }
 
-function getTree(personId) {
+async function findUp(pArr, col) {
+    var top = [];
+    for (var i = 0; i < 2; i++) {
+        var query = {
+            _id: pArr[i]
+        };
+        try {
+            col.findOne(query, async function (err, res) {
+                if (err) throw err;
+
+                if (res.parents) {
+                    let parentArr = [res.parents.parent1, res.parents.parent2];
+                    top.concat(await findUp(parentArr, col));
+                } else {
+                    top.push(res._id);
+                }
+
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    /*
+    setTimeout(function () {
+        return top
+    }, 500);
+    */
+}
+
+async function findDown(cArr, col) {
+    var bottom = [];
+    for (var i = 0; i < cArr.length; i++) {
+        var query = {
+            _id: cArr[i]
+        };
+        try {
+            col.findOne(query, async function (err, res) {
+                if (err) throw err;
+
+                if (res.children) {
+                    let childArr = Object.values(res.children)[0];
+                    bottom.concat(await findDown(childArr, col));
+                } else {
+                    bottom.push(res._id);
+                }
+            });
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    setTimeout(function () {
+        return bottom;
+    }, 500);
+}
+
+async function getTree(personId) {
+
     MongoClient.connect(url, {
         useNewUrlParser: true
-    }, function (err, db) {
-        if (err) throw err;
+    }, async function (err, db) {
+        var dbo = db.db("famDB");
+        var col = dbo.collection("persons");
 
-        let ret = [];
-
-        var db = db.db("famDB");
-        var col = db.collection("persons");
+        var childTree = [];
+        var parentTree = [];
 
         var query = {
             _id: personId
         };
+        
         try {
-            col.findOne(query, function (err, res) {
+            col.findOne(query, async function (err, res) {
                 if (err) throw err;
-                if (res) {
-                    console.log(res);
+
+
+                if (res.children) {
+                    let childArr = Object.values(res.children)[0];
+                    childTree.concat(await findDown(childArr, col));
                 }
-            })
-        } catch(e){
+                if (res.parents) {
+                    let parentArr = [res.parents.parent1, res.parents.parent2];
+                    parentTree.concat(await findUp(parentArr, col));
+                }
+            });
+
+        } catch (e) {
             console.log(e);
         }
-
+        setTimeout(function () {
+            console.log("top: " + childTree);
+            console.log("bottom: " + parentTree);
+        }, 1000)
     })
 }
 
-//getTree(123)
+getTree(123);
 
 function submitEvent(event, reqId, data, name) {
     if (data == "loading") {
