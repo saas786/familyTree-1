@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import TreeDisplay from "./TreeDisplay";
 import Octicon, {Person} from '@githubprimer/octicons-react'
+import CreateFamily from './CreateFamily';
 
 const Home = () => < Dashboard />;
-const Create = () => <h2>Create</h2>;
+const Create = () => <h2>< CreateFamily /></h2>;
 const View = () => <TreeDisplay />;
 
 class App extends Component {

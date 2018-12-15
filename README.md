@@ -17,9 +17,6 @@ ALSO
 ## To Run with Nodemon
 'npm run start:dev'
 
-## To Run with Nodemon
-'npm run start:dev'
-
 ## To Build
 'npm run build' will transpile React to js. 
 
@@ -34,7 +31,6 @@ Please do not push to master. Please use branching and then push that branch to 
     - create realm and user (see website)
     - integration to application
     - set up login screen using react
-- Style dashboard
 - User specific front end components
 - Modals for nodes in tree
 - SSR? 
@@ -54,3 +50,6 @@ Please do not push to master. Please use branching and then push that branch to 
 - Create Tree Component
 - Create People components in tree
 - Scrapped AMP
+- Finished Family View
+- Finished FE Routes
+- style dashboard
