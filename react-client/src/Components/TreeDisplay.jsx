@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Tree from "react-d3-tree";
 import PersonNode from './PersonNode';
-import Keycloak from 'keycloak-js';
 
 /* Uses https://github.com/bkrem/react-d3-tree for basic tree logic*/
 
@@ -64,35 +63,21 @@ const myTreeData = [
 ];
 
 class TreeDisplay extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      keycloak: null,
-      authenticated: false,
-      x: 0,
-      y: 0
-    };
-  }
+  state = {}
 
   componentDidMount() {
-    const keycloak = Keycloak('/keycloak.json');
-    keycloak.init({onLoad: 'login-require'}).then(authenticated => {
-      this.setState({keycloak: keycloak, authenticated: authenticated })
-    })
-
     const dimensions = this.treeContainer.getBoundingClientRect();
     this.setState({
       translate: {
         x: dimensions.width / 2,
         y: dimensions.height / 4
       }
-    })
+    });
   };
 
   render() {
-    if (this.state.keycloak) {
-      if (this.state.authenticated) return (
-        <div id="treeWrapper" ref={tc => (this.treeContainer = tc)}>
+    return (
+      <div id="treeWrapper" ref={tc => (this.treeContainer = tc)}>
         <Tree
         data={myTreeData}
         pathFunc="elbow"
@@ -107,11 +92,6 @@ class TreeDisplay extends React.PureComponent {
           }
         }}/>
       </div>
-      ); else return(
-        <div> Unable to authenticate! Please try again. </div>)
-    }
-    return (
-      <div> Initializing Keycloak... </div>
     );
   }
 }
