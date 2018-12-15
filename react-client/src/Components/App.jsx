@@ -2,10 +2,22 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import TreeDisplay from "./TreeDisplay";
-import Octicon, {Person} from '@githubprimer/octicons-react';
+import Octicon, {Person} from '@githubprimer/octicons-react'
+import Auth from '../Auth/Auth';
+import history from '../history';
+import Login from "./Login";
 
-const Home = () => < Dashboard function={loadText} />;
-const View = () => <TreeDisplay />;
+const auth = new Auth();
+
+const Home = (props) => < Dashboard function={loadText} auth={auth} {...props} />;
+const LoginHere = (props) => <Login auth={auth} {...props} />;
+const View = (props) => {handleAuthentication(props); return <TreeDisplay {...props} />};
+
+const handleAuthentication = ({location}) => {
+  if (/access_token|id_token|error/.test(location.hash)) {
+    auth.handleAuthentication();
+  }
+}
 
 function loadText() {
   var xhttp = new XMLHttpRequest();
@@ -22,7 +34,7 @@ function loadText() {
 class App extends Component {
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <div>
           <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <Link class="navbar-brand" to="/">JAMZ</Link>
@@ -30,13 +42,13 @@ class App extends Component {
               <li class="nav-item"><Link to="/">About</Link></li>
               <li class="nav-item"><Link to="/view/">View</Link></li>
             </ul>
-            {/* <span class="nav-item mx-lg-2"> <User /></span> */}
             <p class="user" id="user-name">Please login!</p>
             <div class="user">
               <Octicon icon={Person} />
             </div>
           </nav>
-          <Route path="/" exact component={Home} />
+          <Route path="/" component={Home} />
+          <Route path="/login" component={LoginHere} />
           <Route path="/view/" component={View} />
         </div>
       </Router>
