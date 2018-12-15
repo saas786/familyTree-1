@@ -22,7 +22,6 @@ function loadText() {
 }
 
 class App extends Component {
-  // loginUser = event => {};
   render() {
     return (
       <Router>

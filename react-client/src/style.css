@@ -30,3 +30,7 @@ a:hover {
 .add-member{
     padding: 0 10px 10px 10px;
 }
+
+#sendEmail{
+    color: turquoise;
+}
